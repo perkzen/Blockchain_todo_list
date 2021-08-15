@@ -1,25 +1,33 @@
-import logo from './logo.svg';
 import './App.css';
+import TodoApp from "./Components/TodoApp";
+import NavbarContainer from "./Components/NavbarContainer";
+import Web3 from "web3";
+import {useEffect, useState} from "react";
+import CarouselContainer from "./Components/CarouselContainer";
+import Footer from "./Components/Footer";
+import Explore from "./Components/Explore";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [account, setAccount] = useState("");
+    useEffect(() => {
+        const fetchAccount = async () => {
+            const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
+            const address = await web3.eth.getAccounts();
+            setAccount(address[0]);
+        }
+        fetchAccount();
+    }, [])
+
+    return (
+        <div className="App">
+            <NavbarContainer wallet={account}/>
+            <CarouselContainer/>
+            <Explore/>
+            <TodoApp account={account}/>
+            <Footer/>
+        </div>
+    );
 }
+
 
 export default App;
