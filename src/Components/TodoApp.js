@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from "react";
 import TodoList from "./TodoList";
 import TODO_LIST from '../blockchain/build/contracts/TodoList.json';
-import {CircularProgressbar} from 'react-circular-progressbar';
 import Web3 from "web3";
-import {RiCloseCircleLine} from "react-icons/all";
+
 
 
 export const TodoApp = ({account}) => {
