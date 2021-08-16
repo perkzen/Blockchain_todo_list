@@ -25,7 +25,7 @@ const Footer = () => {
                             </svg>
                         </a>
 
-                        <a>
+                        <a href={"https://www.linkedin.com/in/domen-perko-657b59219/"}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor"
                                  className="bi bi-linkedin m-3" viewBox="0 0 16 16" style={icon}>
                                 <path
@@ -60,13 +60,13 @@ const Footer = () => {
                                 Useful links
                             </h6>
                             <p>
-                                <a href="#!" className="text-reset">Pricing</a>
+                                <a href="#" className="text-reset">Pricing</a>
                             </p>
                             <p>
-                                <a href="#!" className="text-reset">Settings</a>
+                                <a href="#" className="text-reset">Settings</a>
                             </p>
                             <p>
-                                <a href="#!" className="text-reset">Orders</a>
+                                <a href="#" className="text-reset">Orders</a>
                             </p>
                             <p>
                                 <a href="#!" className="text-reset">Help</a>
