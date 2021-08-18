@@ -2,25 +2,28 @@ import React, {useEffect, useState} from "react";
 import TodoList from "./TodoList";
 import TODO_LIST from '../blockchain/build/contracts/TodoList.json';
 import Web3 from "web3";
+import useInterval from "../Hooks/useInterval";
 
 
-
-export const TodoApp = ({account}) => {
+export const TodoApp = ({handleAccountChange, account}) => {
     const [input, setInput] = useState("");
     const [todos, setTodos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [contract, setContract] = useState({});
     const [render, setRender] = useState(false);
 
-    async function fetchData() {
 
+    // get data from blockchain
+    async function fetchData() {
         const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
         const todolist = new web3.eth.Contract(TODO_LIST.abi, TODO_LIST.networks["5777"].address);
         setContract(todolist);
-        let taskCount = await todolist.methods.taskCount().call();
-        if (taskCount > 0) {
-            for (let i = 1; i <= taskCount; i++) {
-                const task = await todolist.methods.tasks(i).call();
+        const address = await web3.eth.getAccounts();
+        let userTodoList = await todolist.methods.getTasksByOwner(address[0]).call();
+        if (userTodoList) {
+            for (const index of userTodoList) {
+                const task = await todolist.methods.tasks(parseInt(index)).call();
+                task.id = parseInt(index);
                 if (task.content !== "") {
                     setTodos(todos => [...todos, task]);
                 }
@@ -29,6 +32,25 @@ export const TodoApp = ({account}) => {
         setLoading(false);
     }
 
+    // fetches data from blockchain everytime the value of render changes
+    useEffect(() => {
+        fetchData();
+
+    }, [render]);
+
+    // change todos when account changes
+    useInterval(async () => {
+        const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
+        let address = await web3.eth.getAccounts();
+        if (address[0] !== account) {
+            handleAccountChange(address[0])
+            setTodos([]);
+            setRender(!render);
+        }
+    }, 1000)
+
+
+    // creates a task on the blockchain
     const createTask = e => {
         e.preventDefault();
         setLoading(true);
@@ -40,6 +62,7 @@ export const TodoApp = ({account}) => {
         });
     }
 
+    // toggles the attribute completed on task
     const completeTask = (taskID) => {
         setLoading(true);
         contract.methods.toggleCompleted(taskID).send({from: account}).once('receipt', (receipt) => {
@@ -49,6 +72,7 @@ export const TodoApp = ({account}) => {
         });
     }
 
+    // deletes the task
     const deleteTask = (taskID) => {
         setLoading(true);
         contract.methods.deleteTask(taskID).send({from: account}).once('receipt', (receipt) => {
@@ -58,9 +82,6 @@ export const TodoApp = ({account}) => {
         });
     }
 
-    useEffect(() => {
-        fetchData();
-    }, [render]);
 
     return (
         <div className={"section"}>

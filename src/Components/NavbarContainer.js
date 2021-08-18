@@ -10,7 +10,7 @@ const NavbarContainer = ({wallet}) => {
                                                             alt={"Logo"}/>Todo list on Blockchain</Navbar.Brand>
             </Container>
             <Nav className={"me-4"}>
-                <h6 className={"text-light"}>Account: {(wallet !== "") ? wallet : "Please connect to MetaMask."}</h6>
+                <h6 className={"text-light"}>Your Account: {(wallet !== "") ? wallet  : "Please connect to MetaMask."}</h6>
             </Nav>
         </Navbar>
     )

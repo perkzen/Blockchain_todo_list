@@ -9,6 +9,7 @@ import Explore from "./Components/Explore";
 
 function App() {
     const [account, setAccount] = useState("");
+
     useEffect(() => {
         const fetchAccount = async () => {
             const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
@@ -16,14 +17,18 @@ function App() {
             setAccount(address[0]);
         }
         fetchAccount();
-    }, [])
+    }, []);
+
+    const handleAccountChange = (address) => {
+        setAccount(address);
+    }
 
     return (
         <div className="App">
             <NavbarContainer wallet={account}/>
             <CarouselContainer/>
             <Explore/>
-            <TodoApp account={account}/>
+            <TodoApp handleAccountChange={handleAccountChange} account={account}/>
             <Footer/>
         </div>
     );

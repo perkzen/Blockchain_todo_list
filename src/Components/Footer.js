@@ -60,16 +60,16 @@ const Footer = () => {
                                 Useful links
                             </h6>
                             <p>
-                                <a href="#" className="text-reset">Pricing</a>
+                                <a href="https://github.com/perkzen/Blockchain_todo_list" className="text-reset">Pricing</a>
                             </p>
                             <p>
-                                <a href="#" className="text-reset">Settings</a>
+                                <a href="https://github.com/perkzen/Blockchain_todo_list" className="text-reset">Settings</a>
                             </p>
                             <p>
-                                <a href="#" className="text-reset">Orders</a>
+                                <a href="https://github.com/perkzen/Blockchain_todo_list" className="text-reset">Orders</a>
                             </p>
                             <p>
-                                <a href="#!" className="text-reset">Help</a>
+                                <a href="https://github.com/perkzen/Blockchain_todo_list" className="text-reset">Help</a>
                             </p>
                         </div>
 
