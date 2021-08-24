@@ -19,15 +19,18 @@ export const TodoApp = ({handleAccountChange, account}) => {
         const todolist = new web3.eth.Contract(TODO_LIST.abi, TODO_LIST.networks["5777"].address);
         setContract(todolist);
         const address = await web3.eth.getAccounts();
-        let userTodoList = await todolist.methods.getTasksByOwner(address[0]).call();
-        if (userTodoList) {
-            for (const index of userTodoList) {
-                const task = await todolist.methods.tasks(parseInt(index)).call();
-                task.id = parseInt(index);
-                if (task.content !== "") {
-                    setTodos(todos => [...todos, task]);
+        if (address) {
+            let userTodoList = await todolist.methods.getTasksByOwner(address[0]).call();
+            if (userTodoList) {
+                for (const index of userTodoList) {
+                    const task = await todolist.methods.tasks(parseInt(index)).call();
+                    task.id = parseInt(index);
+                    if (task.content !== "") {
+                        setTodos(todos => [...todos, task]);
+                    }
                 }
             }
+
         }
         setLoading(false);
     }
